@@ -7,19 +7,21 @@ namespace SkillFactoryCSharp14LINQ
     class Program
     {
         /// <summary>
-        /// Соедините все слова в одну последовательность
+        /// Сделайте выборку всех чисел в новую коллекцию, расположив их в ней по возрастанию.
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            string[] text = { "Раз два три",
-                              "четыре пять шесть",
-                              "семь восемь девять" };
-            var splittedText = from str in text 
-                        from word in str.Split(' ') 
-                        select word;
-            foreach (var word in splittedText)
+            var numsList = new List<int[]>()
+                                {
+                                    new[] {2, 3, 7, 1},
+                                    new[] {45, 17, 88, 0},
+                                    new[] {23, 32, 44, -6},
+                                };
+            var orderedList = numsList.SelectMany(s => s).OrderBy(s => s);
+
+            foreach (var item in orderedList)
             {
-                Console.WriteLine(word);
+                Console.WriteLine(item);
             }
             Console.ReadKey();
         }
