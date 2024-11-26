@@ -6,23 +6,22 @@ namespace SkillFactoryCSharp14LINQ
 {
     class Program
     {
-        /// <summary>
-        /// Сделайте выборку всех чисел в новую коллекцию, расположив их в ней по возрастанию.
-        /// <param name="args"></param>
         static void Main(string[] args)
         {
-            var numsList = new List<int[]>()
-                                {
-                                    new[] {2, 3, 7, 1},
-                                    new[] {45, 17, 88, 0},
-                                    new[] {23, 32, 44, -6},
-                                };
-            var orderedList = numsList.SelectMany(s => s).OrderBy(s => s);
+            string[] words = { "Обезьяна", "Лягушка", "Кот", "Собака", "Черепаха" };
 
-            foreach (var item in orderedList)
+            var wordsInfo = words.Select(w =>
+                                            new
+                                            {  
+                                                Name = w,
+                                                Length = w.Length 
+                                            })
+                                 .OrderBy(word => word.Length);
+            foreach (var word in wordsInfo)
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"{word.Name} - {word.Length} букв");
             }
+                
             Console.ReadKey();
         }
     }
