@@ -1,10 +1,10 @@
 ﻿using System;
 namespace SkillFactoryCSharp14LINQ
 {
-	public class Coarse
-	{
+    public class Contact
+    {
         public string Name { get; set; }
-        public DateTime StartDate { get; set; }
+        public long Phone { get; set; }
     }
 }
 
