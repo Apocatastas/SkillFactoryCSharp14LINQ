@@ -9,60 +9,47 @@ namespace SkillFactoryCSharp14LINQ
     {
         public static void Main(string[] args)
         {
-            var contacts = new List<Contact>()
-                                {
-                                    new Contact() { Name = "Андрей", Phone = 7999945005 },
-                                    new Contact() { Name = "Сергей", Phone = 799990455 },
-                                    new Contact() { Name = "Иван", Phone = 79999675 },
-                                    new Contact() { Name = "Игорь", Phone = 8884994 },
-                                    new Contact() { Name = "Анна", Phone = 665565656 },
-                                    new Contact() { Name = "Василий", Phone = 3434 }
-                                };
+            //  создаём пустой список с типом данных Contact
+            var phoneBook = new List<Contact>();
 
-            // бесконечный цикл, ожидающий ввод с консоли
+            // добавляем контакты
+            phoneBook.Add(new Contact("Игорь", "Николаев", 79990000001, "igor@example.com"));
+            phoneBook.Add(new Contact("Сергей", "Довлатов", 79990000010, "serge@example.com"));
+            phoneBook.Add(new Contact("Анатолий", "Карпов", 79990000011, "anatoly@example.com"));
+            phoneBook.Add(new Contact("Валерий", "Леонтьев", 79990000012, "valera@example.com"));
+            phoneBook.Add(new Contact("Сергей", "Брин", 799900000013, "serg@example.com"));
+            phoneBook.Add(new Contact("Иннокентий", "Смоктуновский", 799900000013, "innokentii@example.com"));
+
             while (true)
             {
-                var keyChar = Console.ReadKey().KeyChar; // получаем символ с консоли
-                Console.Clear();  //  очистка консоли от ввода
+                // Читаем введенный с консоли символ
+                var input = Console.ReadKey().KeyChar;
 
+                // проверяем, число ли это
+                var parsed = Int32.TryParse(input.ToString(), out int pageNumber);
 
-                if (!Char.IsDigit(keyChar))
+                // если не соответствует критериям - показываем ошибку
+                if (!parsed || pageNumber < 1 || pageNumber > 3)
                 {
-                    Console.WriteLine("Ошибка ввода, введите число");
+                    Console.WriteLine();
+                    Console.WriteLine("Страницы не существует");
                 }
+                // если соответствует - запускаем вывод
                 else
                 {
-                    //  переменная для хранения запроса в зависимости от введенного с консоли числа
-                    IEnumerable<Contact> page = null;
+                    // пропускаем нужное количество элементов и берем 2 для показа на странице
+                    var pageContent = phoneBook.Skip((pageNumber - 1) * 2).Take(2);
+                    Console.WriteLine();
 
-                    //  выбираем нужное кол-во элементов для создания постраничного ввода в зависимости от запроса
-                    switch (keyChar)
-                    {
-                        case ('1'):
-                            page = contacts.Take(2);
-                            break;
-                        case ('2'):
-                            page = contacts.Skip(2).Take(2);
-                            break;
-                        case ('3'):
-                            page = contacts.Skip(4).Take(2);
-                            break;
-                    }
+                    // выводим результат
+                    foreach (var entry in pageContent)
+                        Console.WriteLine(entry.Name + " " + entry.LastName + ": " + entry.PhoneNumber);
 
-                    //   проверим, что ввели существующий номер страницы
-                    if (page == null)
-                    {
-                        Console.WriteLine($"Ошибка ввода, страницы {keyChar} не существует");
-                        continue;
-                    }
-
-                    // вывод результата на консоль
-                    foreach (var contact in page)
-                        Console.WriteLine(contact.Name + " " + contact.Phone);
+                    Console.WriteLine();
                 }
-
             }
         }
-    }
 
+
+    }
 }
